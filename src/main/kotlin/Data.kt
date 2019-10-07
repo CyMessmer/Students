@@ -13,6 +13,8 @@ data class Classes(val classes: Map<Int, String>)
 
 // requests data classes
 data class StudentEmail(val email: String?)
+data class FirstName(val first: String)
+data class LastName(val last: String)
 
 // responses data classes
 data class StudentsGpaResponse(val students: List<StudentGpaResponse>)

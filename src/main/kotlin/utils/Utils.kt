@@ -10,9 +10,10 @@ import org.http4k.core.ContentType
 // quick access for parsing xml
 val jacksonXmlObjectMapper = XmlMapper().registerKotlinModule()
 
-inline fun <reified T> fromXmlOrJson(acceptHeader: String, bodyString: String): T? {
+
+inline fun <reified T> fromXmlOrJson(acceptHeader: ContentType, bodyString: String): T? {
     return try {
-        return if (acceptHeader == ContentType.APPLICATION_XML.value) {
+        return if (acceptHeader == ContentType.APPLICATION_XML) {
             jacksonXmlObjectMapper.readValue(bodyString)
         } else {
             jacksonObjectMapper().readValue(bodyString)
@@ -23,8 +24,8 @@ inline fun <reified T> fromXmlOrJson(acceptHeader: String, bodyString: String): 
     }
 }
 
-fun toXmlOrJson(acceptHeader: String, data: Any?): String {
-    return if (acceptHeader == ContentType.APPLICATION_XML.value) {
+fun toXmlOrJson(acceptHeader: ContentType, data: Any?): String {
+    return if (acceptHeader == ContentType.APPLICATION_XML) {
         jacksonXmlObjectMapper.writeValueAsString(data)
     } else {
         jacksonObjectMapper().writeValueAsString(data)
