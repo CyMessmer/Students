@@ -14,9 +14,8 @@ import org.http4k.contract.openapi.ApiInfo
 import org.http4k.contract.openapi.v3.OpenApi3
 import org.http4k.core.*
 import org.http4k.format.Jackson
-import org.http4k.lens.Header
-import org.http4k.lens.HeaderLens
-import org.http4k.lens.Meta
+import org.http4k.format.Jackson.auto
+import org.http4k.format.JacksonXml.auto as autoXml
 import org.http4k.lens.Query
 import org.http4k.routing.bind
 import org.http4k.routing.routes
@@ -65,6 +64,8 @@ class Api {
         // use lens to check query type as well as provide param for OpenApi
         val first = Query.map(::FirstName).optional("first", "Students first name")
         val last = Query.map(::LastName).optional("last", "Students last name")
+        val bodyJson = Body.auto<StudentsGpaResponse>().toLens()
+        val bodyXml = Body.autoXml<StudentsGpaResponse>().toLens()
         // Create handler for the request
         val studentsGpaHandler: HttpHandler = { request ->
             val requestAcceptType =
@@ -73,7 +74,7 @@ class Api {
 
             val gpa = getGpa(first(request), last(request))
             val response = toXmlOrJson(requestAcceptType, gpa)
-
+            
             if (gpa.students.isNullOrEmpty()) {
                 Response(Status.NOT_FOUND)
             } else {
@@ -90,8 +91,8 @@ class Api {
             consumes.plusAssign(listOf(ContentType.APPLICATION_JSON, ContentType.APPLICATION_XML))
             produces.plusAssign(listOf(ContentType.APPLICATION_JSON, ContentType.APPLICATION_XML))
             queries.plusAssign(listOf(first, last))
-            headers.plusAssign(HeaderLens(Meta(false), Header.CONTENT_TYPE))
-            returning(Status.OK to "Success", Status.NOT_FOUND to "No results found")
+            returning(Status.OK, bodyJson to StudentsGpaResponse(listOf(StudentGpaResponse("Cy", "Messmer", 3.6))))
+            returning(Status.OK, bodyXml to StudentsGpaResponse(listOf(StudentGpaResponse("Cy", "Messmer", 3.6))))
         } bindContract Method.GET to studentsGpaHandler
     }
 
