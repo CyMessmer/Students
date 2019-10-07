@@ -20,7 +20,7 @@ data class StudentGpaResponse(val first: String, val last: String, val gpa: Doub
 data class StudentDetailsResponse(
     val first: String,
     val last: String,
-    val email: String,d
+    val email: String,
     val gpaAverage: Double,
     val classes: List<ClassGradeResponse>
 )
