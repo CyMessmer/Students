@@ -1,4 +1,5 @@
-import api.Api
+package students
+
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import com.natpryce.hamkrest.isWithin
@@ -12,8 +13,9 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import utils.database
-import utils.fromXmlOrJson
+import students.api.Api
+import students.utils.database
+import students.utils.fromXmlOrJson
 
 /**
  * If this app did more than just read a json file, I would add more clean up, and test by creating new data;
@@ -60,15 +62,16 @@ class EndToEndTest {
             Request(Method.GET, "http://localhost:8000/api/student/gpa")
                 .header("Content-Type", ContentType.APPLICATION_XML.value)
         )
-        val studentsGPA = fromXmlOrJson<StudentsGpaResponse>("", response.bodyString())
+        val studentsGPA = fromXmlOrJson<StudentsGpaResponse>(ContentType.APPLICATION_XML, response.bodyString())
         assertThat(response, hasStatus(Status.OK))
         assertThat(database.studentsTable.students.size, equalTo(studentsGPA?.students?.size))
     }
 
     @Test
     fun `respond OK with Jane Smith's GPA's`() {
-        val response = client(Request(Method.GET, "http://localhost:8000/api/student/gpa?first=Jane&?last=Smith"))
-        val studentsGPA = fromXmlOrJson<StudentsGpaResponse>("", response.bodyString())
+        val response =
+            client(Request(Method.GET, "http://localhost:8000/api/student/gpa?first=Jane&?last=Smith"))
+        val studentsGPA = fromXmlOrJson<StudentsGpaResponse>(ContentType.APPLICATION_XML, response.bodyString())
         assertThat(response, hasStatus(Status.OK))
         assertThat(studentsGPA!!.students.size, equalTo(1))
         assertThat(studentsGPA.students.first().first, equalTo("Jane"))
@@ -84,7 +87,7 @@ class EndToEndTest {
                 "http://localhost:8000/api/student/gpa?first=Expialidocious&?last=Supercalifragilistic"
             )
         )
-        val studentsGPA = fromXmlOrJson<StudentsGpaResponse>("", response.bodyString())
+        val studentsGPA = fromXmlOrJson<StudentsGpaResponse>(ContentType.APPLICATION_XML, response.bodyString())
         Assertions.assertTrue(studentsGPA?.students.isNullOrEmpty())
         assertThat(response, hasStatus(Status.NOT_FOUND))
     }
@@ -98,7 +101,7 @@ class EndToEndTest {
             .body("""{"email": "sware@mailinator.com"}""")
 
         val response = client(request)
-        val studentsGPA = fromXmlOrJson<StudentDetailsResponse>("", response.bodyString())
+        val studentsGPA = fromXmlOrJson<StudentDetailsResponse>(ContentType.APPLICATION_XML, response.bodyString())
         assertThat(response, hasStatus(Status.OK))
         Assertions.assertTrue(studentsGPA!!.classes.isNotEmpty())
         assertThat(studentsGPA.email, equalTo("sware@mailinator.com"))
@@ -110,9 +113,9 @@ class EndToEndTest {
     fun `respond OK when xml email give for details`() {
         val request = Request(Method.POST, "http://localhost:8000/api/student/details")
             .header("Content-Type", ContentType.APPLICATION_XML.value)
-            .body("<StudentEmail><email>sware@mailinator.com</email></StudentEmail>")
+            .body("<students.StudentEmail><email>sware@mailinator.com</email></students.StudentEmail>")
         val response = client(request)
-        val studentsGPA = fromXmlOrJson<StudentDetailsResponse>("", response.bodyString())
+        val studentsGPA = fromXmlOrJson<StudentDetailsResponse>(ContentType.APPLICATION_XML, response.bodyString())
         assertThat(response, hasStatus(Status.OK))
         Assertions.assertTrue(studentsGPA!!.classes.isNotEmpty())
         assertThat(studentsGPA.email, equalTo("sware@mailinator.com"))
@@ -123,7 +126,7 @@ class EndToEndTest {
     @Test
     fun `respond BAD_REQUEST when no email give for details`() {
         val response = client(Request(Method.POST, "http://localhost:8000/api/student/details"))
-        val studentsGPA = fromXmlOrJson<StudentDetailsResponse>("", response.bodyString())
+        val studentsGPA = fromXmlOrJson<StudentDetailsResponse>(ContentType.APPLICATION_XML, response.bodyString())
         assertThat(response, hasStatus(Status.BAD_REQUEST))
         Assertions.assertTrue(studentsGPA == null)
     }
@@ -132,9 +135,9 @@ class EndToEndTest {
     fun `respond BAD_REQUEST when email invalid for details`() {
         val request = Request(Method.POST, "http://localhost:8000/api/student/details")
             .header("Content-Type", ContentType.APPLICATION_XML.value)
-            .body("<StudentEmail><email>swaremailinator.x</email></StudentEmail>")
+            .body("<students.StudentEmail><email>swaremailinator.x</email></students.StudentEmail>")
         val response = client(Request(Method.POST, "http://localhost:8000/api/student/details"))
-        val studentsGPA = fromXmlOrJson<StudentDetailsResponse>("", response.bodyString())
+        val studentsGPA = fromXmlOrJson<StudentDetailsResponse>(ContentType.APPLICATION_XML, response.bodyString())
         assertThat(response, hasStatus(Status.BAD_REQUEST))
         Assertions.assertTrue(studentsGPA == null)
     }

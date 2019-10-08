@@ -1,11 +1,11 @@
-package utils
+package students.utils
 
-import Database
 import com.fasterxml.jackson.dataformat.xml.XmlMapper
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import org.http4k.core.ContentType
+import students.Database
 
 // quick access for parsing xml
 val jacksonXmlObjectMapper = XmlMapper().registerKotlinModule()

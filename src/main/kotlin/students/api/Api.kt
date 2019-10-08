@@ -1,12 +1,5 @@
-package api
+package students.api
 
-import ClassGradeResponse
-import FirstName
-import LastName
-import StudentDetailsResponse
-import StudentEmail
-import StudentGpaResponse
-import StudentsGpaResponse
 import org.http4k.contract.ContractRoute
 import org.http4k.contract.contract
 import org.http4k.contract.meta
@@ -19,7 +12,8 @@ import org.http4k.lens.Lens
 import org.http4k.lens.Query
 import org.http4k.routing.bind
 import org.http4k.routing.routes
-import utils.*
+import students.*
+import students.utils.*
 import org.http4k.format.JacksonXml.auto as autoXml
 
 class Api {

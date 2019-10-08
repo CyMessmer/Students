@@ -2,6 +2,7 @@ import org.gradle.api.tasks.testing.logging.TestLogEvent
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
+    application
     kotlin("jvm") version "1.3.50"
 }
 
@@ -10,6 +11,10 @@ version = "1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
+}
+
+application {
+    mainClassName = "students.MainKt"
 }
 
 dependencies {
@@ -25,10 +30,6 @@ dependencies {
     implementation("org.http4k:http4k-format-jackson:$http4kVersion")
     implementation("org.http4k:http4k-format-jackson-xml:$http4kVersion")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.9.7")
-
-    implementation("org.http4k:http4k-security-oauth:$http4kVersion")
-    implementation("org.http4k:http4k-server-undertow:$http4kVersion")
-
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:$junitVersion")
     testImplementation("org.junit.jupiter:junit-jupiter-engine:$junitVersion")
