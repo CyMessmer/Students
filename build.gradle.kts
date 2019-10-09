@@ -39,6 +39,10 @@ dependencies {
     testImplementation("org.http4k:http4k-testing-webdriver:$http4kVersion")
 }
 
+tasks.withType<Wrapper>{
+    gradleVersion = "5.2.1"
+}
+
 tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
 }
