@@ -1,0 +1,392 @@
+{
+	"info": {
+		"_postman_id": "f4ad2b3e-d1b3-4287-8524-af44c879718a",
+		"name": "Students",
+		"description": "Collection for student Otus assignment.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get student GPA json",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/xml",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:8080/api/student/gpa?last=Smith",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"student",
+						"gpa"
+					],
+					"query": [
+						{
+							"key": "last",
+							"value": "Smith"
+						},
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						},
+						{
+							"key": "",
+							"value": "f",
+							"disabled": true
+						},
+						{
+							"key": "",
+							"value": "fi",
+							"disabled": true
+						},
+						{
+							"key": "",
+							"value": "fir",
+							"disabled": true
+						},
+						{
+							"key": "",
+							"value": "firs",
+							"disabled": true
+						},
+						{
+							"key": "",
+							"value": "first",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get student GPA XML",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/xml",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:8080/api/student/gpa?last=Smith",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"student",
+						"gpa"
+					],
+					"query": [
+						{
+							"key": "last",
+							"value": "Smith"
+						},
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						},
+						{
+							"key": "",
+							"value": "f",
+							"disabled": true
+						},
+						{
+							"key": "",
+							"value": "fi",
+							"disabled": true
+						},
+						{
+							"key": "",
+							"value": "fir",
+							"disabled": true
+						},
+						{
+							"key": "",
+							"value": "firs",
+							"disabled": true
+						},
+						{
+							"key": "",
+							"value": "first",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Student Details json",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/xml",
+						"type": "text"
+					},
+					{
+						"key": "email",
+						"value": "tyler_cortez@mailinator.com",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "Content-Length",
+						"value": "43",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\": \"tyler_cortez@mailinator.com\"\n}",
+					"options": {
+						"raw": {
+							"language": "xml"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/student/details",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"student",
+						"details"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Student Details XML",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/xml",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/xml",
+						"disabled": true
+					},
+					{
+						"key": "email",
+						"type": "text",
+						"value": "tyler_cortez@mailinator.com",
+						"disabled": true
+					},
+					{
+						"key": "Content-Length",
+						"type": "text",
+						"value": "43",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "<StudentEmail>\n\t<email>tyler_cortez@mailinator.com</email>\n</StudentEmail>",
+					"options": {
+						"raw": {
+							"language": "xml"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/student/details",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"student",
+						"details"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Swagger doc",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/xml",
+						"type": "text"
+					},
+					{
+						"key": "email",
+						"value": "tyler_cortez@mailinator.com",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "Content-Length",
+						"value": "43",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\": \"tyler_cortez@mailinator.com\"\n}",
+					"options": {
+						"raw": {
+							"language": "text"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/student/gpa?last=Smith",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"student",
+						"gpa"
+					],
+					"query": [
+						{
+							"key": "last",
+							"value": "Smith"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET healthcheck",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/xml",
+						"type": "text"
+					},
+					{
+						"key": "email",
+						"value": "tyler_cortez@mailinator.com",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "Content-Length",
+						"value": "43",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\": \"tyler_cortez@mailinator.com\"\n}",
+					"options": {
+						"raw": {
+							"language": "text"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/student/gpa?last=Smith",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"student",
+						"gpa"
+					],
+					"query": [
+						{
+							"key": "last",
+							"value": "Smith"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
