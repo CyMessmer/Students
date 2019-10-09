@@ -1,0 +1,277 @@
+{
+  "info": {
+    "title": "Students API",
+    "version": "0.0.1",
+    "description": "Api to get information about students"
+  },
+  "tags": [],
+  "paths": {
+    "/api/healthcheck": {
+      "get": {
+        "summary": "Health check",
+        "description": "Ensures API is alive",
+        "tags": [
+          "/api"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Result",
+            "content": {}
+          }
+        },
+        "security": [],
+        "operationId": "getApiHealthcheck"
+      }
+    },
+    "/api/student/details": {
+      "post": {
+        "summary": "Get student details",
+        "description": "Get students class list and class GPA as well average GPA and contact info",
+        "tags": [
+          "/api"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "example": {
+                  "first": "Cy",
+                  "last": "Messmer",
+                  "email": "cy.messmer@gmail.com",
+                  "gpaAverage": 3.6,
+                  "classes": [
+                    {
+                      "name": "Comp Sci 101",
+                      "gpa": 3.8
+                    }
+                  ]
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/StudentDetailsResponse",
+                  "example": null
+                }
+              }
+            }
+          }
+        },
+        "security": [],
+        "operationId": "postApiStudentDetails"
+      }
+    },
+    "/api/student/gpa": {
+      "get": {
+        "summary": "Find students average GPA",
+        "description": "Returns all students who name matches the first and last param. All students returned if params omitted",
+        "tags": [
+          "/api"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "first",
+            "required": false,
+            "description": "Students first name"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "last",
+            "required": false,
+            "description": "Students last name"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "example": {
+                  "students": [
+                    {
+                      "first": "Cy",
+                      "last": "Messmer",
+                      "gpa": 3.6
+                    }
+                  ]
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/StudentsGpaResponse",
+                  "example": null
+                }
+              }
+            }
+          }
+        },
+        "security": [],
+        "operationId": "getApiStudentGpa"
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "StudentsGpaResponse": {
+        "properties": {
+          "students": {
+            "items": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/StudentGpaResponse"
+                }
+              ]
+            },
+            "example": [
+              {
+                "first": "Cy",
+                "last": "Messmer",
+                "gpa": 3.6
+              }
+            ],
+            "type": "array"
+          }
+        },
+        "example": {
+          "students": [
+            {
+              "first": "Cy",
+              "last": "Messmer",
+              "gpa": 3.6
+            }
+          ]
+        },
+        "type": "object",
+        "required": [
+          "students"
+        ]
+      },
+      "StudentGpaResponse": {
+        "properties": {
+          "first": {
+            "example": "Cy",
+            "type": "string"
+          },
+          "last": {
+            "example": "Messmer",
+            "type": "string"
+          },
+          "gpa": {
+            "example": 3.6,
+            "type": "number"
+          }
+        },
+        "example": {
+          "first": "Cy",
+          "last": "Messmer",
+          "gpa": 3.6
+        },
+        "type": "object",
+        "required": [
+          "first",
+          "gpa",
+          "last"
+        ]
+      },
+      "StudentDetailsResponse": {
+        "properties": {
+          "first": {
+            "example": "Cy",
+            "type": "string"
+          },
+          "last": {
+            "example": "Messmer",
+            "type": "string"
+          },
+          "email": {
+            "example": "cy.messmer@gmail.com",
+            "type": "string"
+          },
+          "gpaAverage": {
+            "example": 3.6,
+            "type": "number"
+          },
+          "classes": {
+            "items": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/ClassGradeResponse"
+                }
+              ]
+            },
+            "example": [
+              {
+                "name": "Comp Sci 101",
+                "gpa": 3.8
+              }
+            ],
+            "type": "array"
+          }
+        },
+        "example": {
+          "first": "Cy",
+          "last": "Messmer",
+          "email": "cy.messmer@gmail.com",
+          "gpaAverage": 3.6,
+          "classes": [
+            {
+              "name": "Comp Sci 101",
+              "gpa": 3.8
+            }
+          ]
+        },
+        "type": "object",
+        "required": [
+          "classes",
+          "email",
+          "first",
+          "gpaAverage",
+          "last"
+        ]
+      },
+      "ClassGradeResponse": {
+        "properties": {
+          "name": {
+            "example": "Comp Sci 101",
+            "type": "string"
+          },
+          "gpa": {
+            "example": 3.8,
+            "type": "number"
+          }
+        },
+        "example": {
+          "name": "Comp Sci 101",
+          "gpa": 3.8
+        },
+        "type": "object",
+        "required": [
+          "gpa",
+          "name"
+        ]
+      }
+    },
+    "securitySchemes": {}
+  },
+  "openapi": "3.0.0"
+}
