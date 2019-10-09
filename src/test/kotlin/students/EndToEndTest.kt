@@ -57,7 +57,7 @@ class EndToEndTest {
 
     // /api/student/gpa
     @Test
-    fun `respond OK with all student GPA's`() {
+    fun `XML respond OK with all student GPA's`() {
         val response = client(
             Request(Method.GET, "http://localhost:8000/api/student/gpa")
                 .header("Content-Type", ContentType.APPLICATION_XML.value)
@@ -68,10 +68,33 @@ class EndToEndTest {
     }
 
     @Test
-    fun `respond OK with Jane Smith's GPA's`() {
+    fun `JSON respond OK with all student GPA's`() {
+        val response = client(
+            Request(Method.GET, "http://localhost:8000/api/student/gpa")
+                .header("Content-Type", ContentType.APPLICATION_JSON.value)
+        )
+        val studentsGPA = fromXmlOrJson<StudentsGpaResponse>(ContentType.APPLICATION_JSON, response.bodyString())
+        assertThat(response, hasStatus(Status.OK))
+        assertThat(database.studentsTable.students.size, equalTo(studentsGPA?.students?.size))
+    }
+
+    @Test
+    fun `XML respond OK with Jane Smith's GPA's`() {
         val response =
             client(Request(Method.GET, "http://localhost:8000/api/student/gpa?first=Jane&?last=Smith"))
         val studentsGPA = fromXmlOrJson<StudentsGpaResponse>(ContentType.APPLICATION_XML, response.bodyString())
+        assertThat(response, hasStatus(Status.OK))
+        assertThat(studentsGPA!!.students.size, equalTo(1))
+        assertThat(studentsGPA.students.first().first, equalTo("Jane"))
+        assertThat(studentsGPA.students.last().last, equalTo("Smith"))
+        assertThat(studentsGPA.students.first().gpa, isWithin(0.0..4.0))
+    }
+
+    @Test
+    fun `JSON respond OK with Jane Smith's GPA's`() {
+        val response =
+            client(Request(Method.GET, "http://localhost:8000/api/student/gpa?first=Jane&?last=Smith"))
+        val studentsGPA = fromXmlOrJson<StudentsGpaResponse>(ContentType.APPLICATION_JSON, response.bodyString())
         assertThat(response, hasStatus(Status.OK))
         assertThat(studentsGPA!!.students.size, equalTo(1))
         assertThat(studentsGPA.students.first().first, equalTo("Jane"))
@@ -95,10 +118,10 @@ class EndToEndTest {
 
     // /api/student/details tests
     @Test
-    fun `respond OK sware@mailinator's details`() {
+    fun `XML respond OK when XML sware@mailinator's  details`() {
         val request = Request(Method.POST, "http://localhost:8000/api/student/details")
             .header("Content-Type", ContentType.APPLICATION_JSON.value)
-            .body("""{"email": "sware@mailinator.com"}""")
+            .body("<StudentEmail><email>sware@mailinator.com</email></StudentEmail>")
 
         val response = client(request)
         val studentsGPA = fromXmlOrJson<StudentDetailsResponse>(ContentType.APPLICATION_XML, response.bodyString())
@@ -110,12 +133,41 @@ class EndToEndTest {
     }
 
     @Test
-    fun `respond OK when xml email give for details`() {
+    fun `JSON respond OK JSON sware@mailinator's details`() {
+        val request = Request(Method.POST, "http://localhost:8000/api/student/details")
+            .header("Content-Type", ContentType.APPLICATION_JSON.value)
+            .body("""{"email": "sware@mailinator.com"}""")
+
+        val response = client(request)
+        val studentsGPA = fromXmlOrJson<StudentDetailsResponse>(ContentType.APPLICATION_JSON, response.bodyString())
+        assertThat(response, hasStatus(Status.OK))
+        Assertions.assertTrue(studentsGPA!!.classes.isNotEmpty())
+        assertThat(studentsGPA.email, equalTo("sware@mailinator.com"))
+        assertThat(studentsGPA.first, equalTo("Samantha"))
+        assertThat(studentsGPA.last, equalTo("Ware"))
+    }
+
+    @Test
+    fun `XML respond OK when XML email given for details`() {
         val request = Request(Method.POST, "http://localhost:8000/api/student/details")
             .header("Content-Type", ContentType.APPLICATION_XML.value)
-            .body("<students.StudentEmail><email>sware@mailinator.com</email></students.StudentEmail>")
+            .body("<StudentEmail><email>sware@mailinator.com</email></StudentEmail>")
         val response = client(request)
         val studentsGPA = fromXmlOrJson<StudentDetailsResponse>(ContentType.APPLICATION_XML, response.bodyString())
+        assertThat(response, hasStatus(Status.OK))
+        Assertions.assertTrue(studentsGPA!!.classes.isNotEmpty())
+        assertThat(studentsGPA.email, equalTo("sware@mailinator.com"))
+        assertThat(studentsGPA.first, equalTo("Samantha"))
+        assertThat(studentsGPA.last, equalTo("Ware"))
+    }
+
+    @Test
+    fun `JSON respond OK when JSON email given for details`() {
+        val request = Request(Method.POST, "http://localhost:8000/api/student/details")
+            .header("Content-Type", ContentType.APPLICATION_JSON.value)
+            .body("""{"email":"sware@mailinator.com"}""")
+        val response = client(request)
+        val studentsGPA = fromXmlOrJson<StudentDetailsResponse>(ContentType.APPLICATION_JSON, response.bodyString())
         assertThat(response, hasStatus(Status.OK))
         Assertions.assertTrue(studentsGPA!!.classes.isNotEmpty())
         assertThat(studentsGPA.email, equalTo("sware@mailinator.com"))
