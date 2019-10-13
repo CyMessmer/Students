@@ -26,7 +26,6 @@ dependencies {
     implementation(kotlin("stdlib-jdk8"))
     implementation("org.http4k:http4k-core:$http4kVersion")
     implementation("org.http4k:http4k-server-netty:$http4kVersion")
-    implementation("org.http4k:http4k-client-okhttp:$http4kVersion")
     implementation("org.http4k:http4k-cloudnative:$http4kVersion")
     implementation("org.http4k:http4k-contract:$http4kVersion")
     implementation("org.http4k:http4k-format-jackson:$http4kVersion")
