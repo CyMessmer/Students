@@ -12,11 +12,10 @@
 
 # Idea
 *.idea
-*.gradle
+*.gradle*
 build/*
 
 # Package Files #
-.jar
 *.war
 *.nar
 *.ear

@@ -8,7 +8,7 @@ import org.http4k.server.Netty
 import org.http4k.server.asServer
 import students.api.Api
 
-fun main(args: Array<String>) {
+fun main() {
     server(Api().getHandler()).start()
 }
 
